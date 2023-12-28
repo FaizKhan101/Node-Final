@@ -1,24 +1,16 @@
-const express = require("express")
-const bodyParser = require("body-parser")
+const express = require("express");
+const bodyParser = require("body-parser");
 
-const app = express()
+const adminRoutes = require("./routes/admin")
+const shopRoutes = require("./routes/shop")
 
-app.use(bodyParser.urlencoded({extended: false}))
+const app = express();
 
-app.get('/add-product', (req, res, next) => {
-    res.send('<form action="/product" method="POST"><input type="text" name="title"/><button type="submit">Add Product</button></form>')
-})
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post("/product", (req, res, next) => {
-    console.log(req.body.title);
-    res.send("test")
-})
-
-app.get("/", (req, res, next) => {
-    console.log("Hello from Express");
-    res.send("Hello from express!")
-})
+app.use(adminRoutes)
+app.use(shopRoutes)
 
 app.listen(3000, () => {
-    console.log("Server starts at port 3000!");
-})
+  console.log("Server starts at port 3000!");
+});
