@@ -2,15 +2,15 @@ const express = require("express")
 
 const app = express()
 
-app.use((req, res, next) => {
+app.use('/add-product', (req, res, next) => {
     console.log("In the middleware!");
-    next()
+    res.send("Add Product Page")
 })
 
-app.use(() => {
-    console.log("In the another middleware!");
+app.use("/", (req, res, next) => {
+    console.log("Hello from Express");
+    res.send("Hello from express!")
 })
-
 
 app.listen(3000, () => {
     console.log("Server starts at port 3000!");
