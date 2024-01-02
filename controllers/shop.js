@@ -1,7 +1,8 @@
-const products = require("./admin").products
+const Product = require("../models/product")
 
 exports.getProducts = (req, res, next) => {
-  console.log("shop.js", products);
+  const products = Product.fetchAll()
+  console.log(products);
   res.render("shop", { pageTitle: "Shop", products: products });
 };
 
