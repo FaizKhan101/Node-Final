@@ -10,7 +10,7 @@ module.exports = class Product {
 
   save() {
     const p = path.join(
-      path.dirname(process.mainModule.filename),
+      path.join(rootDir),
       "data",
       "products.json"
     );
@@ -26,7 +26,13 @@ module.exports = class Product {
     });
   }
 
-  static fetchAll() {
-    return products;
+  static fetchAll(cb) {
+    const p = path.join(rootDir, "data", "products.json")
+    fs.readFile(p, (err, fileContent) => {
+      if (err) {
+        cb([])
+      }
+      cb(JSON.parse(fileContent))
+    })
   }
 };
