@@ -24,8 +24,8 @@ sequelize
   .sync()
   .then((result) => {
     console.log(result);
-    app.listen(4000, () => {
-      console.log("Server starts at port 4000!");
+    app.listen(3000, () => {
+      console.log("Server starts at port 3000!");
     });
   })
   .catch((err) => {
