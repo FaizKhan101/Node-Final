@@ -4,8 +4,7 @@ const bodyParser = require("body-parser");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const errorController = require("./controllers/error");
-const mongoConnect = require("./util/database").mongoConnect
-
+const mongoConnect = require("./util/database").mongoConnect;
 
 const app = express();
 
@@ -25,7 +24,7 @@ app.use(express.static("public"));
 //     });
 // });
 
-// app.use("/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 // app.use(shopRoutes);
 
 app.use(errorController.get404);
@@ -33,5 +32,5 @@ app.use(errorController.get404);
 mongoConnect(() => {
   app.listen(3000, () => {
     console.log("Server starts at port 3000!");
-  })
-})
+  });
+});
