@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 const errorController = require("./controllers/error");
-const mongoConnect = require("./util/database")
+const mongoConnect = require("./util/database").mongoConnect
 
 
 const app = express();
@@ -30,8 +30,7 @@ app.use(express.static("public"));
 
 app.use(errorController.get404);
 
-mongoConnect(client => {
-  console.log(client);
+mongoConnect(() => {
   app.listen(3000, () => {
     console.log("Server starts at port 3000!");
   })
