@@ -39,20 +39,21 @@ exports.postAddProduct = (req, res, next) => {
   //   });
 };
 
-// exports.getProducts = (req, res, next) => {
-//   req.user
-//     .getProducts()
-//     .then((products) => {
-//       res.render("admin/products", {
-//         pageTitle: "Admin Products",
-//         path: "/admin/products",
-//         products: products,
-//       });
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
+exports.getProducts = (req, res, next) => {
+  // req.user
+  //   .getProducts()
+  Product.fetchAll()
+    .then((products) => {
+      res.render("admin/products", {
+        pageTitle: "Admin Products",
+        path: "/admin/products",
+        products: products,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 // exports.getEditProduct = (req, res, next) => {
 //   const prodId = req.params.productId;

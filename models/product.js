@@ -11,6 +11,10 @@ class Product {
   save() {
     return db.getDb().collection("products").insertOne(this);
   }
+
+  static fetchAll() {
+    return db.getDb().collection("products").find().toArray()
+  }
 }
 
 module.exports = Product;
