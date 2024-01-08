@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
 app.use((req, res, next) => {
-  User.findByPk("659c239823e90b70ea4939f1")
+  User.findById("659c239823e90b70ea4939f1")
     .then((user) => {
       req.user = user;
       next();
