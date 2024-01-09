@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongodb");
+const { ObjectId, Long } = require("mongodb");
 const db = require("../util/database");
 
 class User {
@@ -23,11 +23,14 @@ class User {
       newQuantity += this.cart.items[cartProductIndex].quantity;
       updatedCartItems[cartProductIndex].quantity = newQuantity;
     } else {
-        updatedCartItems.push({ productId: new ObjectId(product._id), quantity: newQuantity })
+      updatedCartItems.push({
+        productId: new ObjectId(product._id),
+        quantity: newQuantity,
+      });
     }
 
     const updatedCart = {
-      items: updatedCartItems
+      items: updatedCartItems,
     };
     return db
       .getDb()
@@ -36,6 +39,43 @@ class User {
         { _id: new ObjectId(this._id) },
         { $set: { cart: updatedCart } }
       );
+  }
+
+  getCart() {
+    const productIds = this.cart.items.map((i) => {
+      return i.productId;
+    });
+    return db
+      .getDb()
+      .collection("products")
+      .find({ _id: { $in: productIds } })
+      .toArray()
+      .then((products) => {
+        return products.map((p) => {
+          return {
+            ...p,
+            quantity: this.cart.items.find((i) => {
+              return i.productId.toString() === p._id.toString();
+            }). quantity
+          };
+        });
+      })
+      .catch((err) => {
+        Longerr;
+      });
+  }
+
+  deleteItemFromCart(productId) {
+    const updatedCartItems = this.cart.items.filter(item => {
+        return item.productId.toString() !== productId.toString();
+    })
+    return db
+    .getDb()
+    .collection("users")
+    .updateOne(
+      { _id: new ObjectId(this._id) },
+      { $set: { cart: { items: updatedCartItems } } }
+    );
   }
 
   static findById(userId) {

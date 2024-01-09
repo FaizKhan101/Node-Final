@@ -197,6 +197,19 @@ form {
   color: white;
 }
 
+.btn-danger { 
+  border: 1px solid rgb(241, 64, 19);
+  color: rgb(241, 64, 19);
+}
+
+
+
+.btn-danger:hover,
+.btn-danger:active {
+  background-color: rgb(241, 64, 19);
+  color: #ffffff;
+}
+
 @media (min-width: 768px) {
   .main-header__nav {
     display: flex;
