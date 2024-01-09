@@ -56,7 +56,7 @@ class User {
             ...p,
             quantity: this.cart.items.find((i) => {
               return i.productId.toString() === p._id.toString();
-            }). quantity
+            }).quantity,
           };
         });
       })
@@ -65,17 +65,45 @@ class User {
       });
   }
 
+  addOrder() {
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            name: this.name,
+          },
+        };
+        return db.getDb().collection("orders").insertOne(order);
+      })
+      .then((result) => {
+        this.cart = { items: [] };
+        return db
+          .getDb()
+          .collection("users")
+          .updateOne(
+            { _id: new ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      });
+  }
+
+  getOrders() {
+    return db.getDb().collection("orders").find({"user._id": new ObjectId(this._id)}).toArray()
+  }
+
   deleteItemFromCart(productId) {
-    const updatedCartItems = this.cart.items.filter(item => {
-        return item.productId.toString() !== productId.toString();
-    })
+    const updatedCartItems = this.cart.items.filter((item) => {
+      return item.productId.toString() !== productId.toString();
+    });
     return db
-    .getDb()
-    .collection("users")
-    .updateOne(
-      { _id: new ObjectId(this._id) },
-      { $set: { cart: { items: updatedCartItems } } }
-    );
+      .getDb()
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: { items: updatedCartItems } } }
+      );
   }
 
   static findById(userId) {
