@@ -44,8 +44,8 @@ userSchema.methods.addToCart = function (product) {
   const updatedCart = {
     items: updatedCartItems,
   };
-  this.cart = updatedCart
-  return this.save()
+  this.cart = updatedCart;
+  return this.save();
 };
 
 module.exports = mongoose.model("User", userSchema);
@@ -63,34 +63,6 @@ module.exports = mongoose.model("User", userSchema);
 
 //   save() {
 //     return db.getDb().collection("users").insertOne(this);
-//   }
-
-//   addToCart(product) {
-//     const cartProductIndex = this.cart.items.findIndex((cp) => {
-//       return cp.productId.toString() === product._id.toString();
-//     });
-//     let newQuantity = 1;
-//     let updatedCartItems = [...this.cart.items];
-//     if (cartProductIndex >= 0) {
-//       newQuantity += this.cart.items[cartProductIndex].quantity;
-//       updatedCartItems[cartProductIndex].quantity = newQuantity;
-//     } else {
-//       updatedCartItems.push({
-//         productId: new ObjectId(product._id),
-//         quantity: newQuantity,
-//       });
-//     }
-
-//     const updatedCart = {
-//       items: updatedCartItems,
-//     };
-//     return db
-//       .getDb()
-//       .collection("users")
-//       .updateOne(
-//         { _id: new ObjectId(this._id) },
-//         { $set: { cart: updatedCart } }
-//       );
 //   }
 
 //   getCart() {
